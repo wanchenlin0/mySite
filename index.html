@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="實習紀錄網站 - 記錄和展示您的實習經歷與成長歷程">
+  <meta name="keywords" content="實習, 紀錄, 學習歷程, 職涯發展">
+  <meta name="author" content="Internship Records">
+
+  <title>實習紀錄網站 | 我的實習旅程</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <a href="index.html" class="navbar-brand">✨ 實習紀錄</a>
+        <div class="navbar-search">
+          <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜尋紀錄...">
+          <div class="search-results" id="searchResults"></div>
+        </div>
+        <div class="navbar-menu">
+          <a href="index.html" class="navbar-link active">首頁</a>
+          <a href="add-record.html" class="navbar-link">+ 新增紀錄</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Profile Section -->
+    <section class="profile-section">
+      <div class="glass-card profile-card">
+        <div class="profile-content">
+          <div class="profile-avatar">
+            <div class="avatar-placeholder" id="profileAvatar">👤</div>
+          </div>
+          <div class="profile-info">
+            <h1 class="profile-name" id="profileName">載入中...</h1>
+            <p class="profile-position">
+              <span id="profilePosition">...</span> @ <span id="profileCompany">...</span>
+            </p>
+            <div class="profile-interests">
+              <strong>興趣：</strong><span id="profileInterests">...</span>
+            </div>
+            <div class="profile-links" id="profileLinks">
+              <!-- 社群連結將動態插入 -->
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="editProfileBtn">編輯個人資料</button>
+      </div>
+    </section>
+
+    <!-- Records Display Section -->
+    <section class="records-section">
+      <div class="section-header">
+        <h2 class="section-title">📚 實習歷程</h2>
+        <div class="section-actions">
+          <select id="sortSelect" class="form-select">
+            <option value="date-desc">最新優先</option>
+            <option value="date-asc">最舊優先</option>
+            <option value="title">標題排序</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="recordsContainer">
+        <!-- Records will be dynamically inserted here -->
+        <div class="empty-state">
+          <div class="empty-state-icon">📭</div>
+          <p>目前還沒有任何紀錄</p>
+          <p style="color: var(--color-text-muted); margin-top: 0.5rem;">開始新增你的第一筆實習紀錄吧！</p>
+          <a href="add-record.html" class="btn btn-primary" style="margin-top: var(--spacing-md);">+ 新增第一筆紀錄</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card glass-card">
+          <div class="stat-icon">📝</div>
+          <div class="stat-value" id="totalRecords">0</div>
+          <div class="stat-label">總紀錄數</div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon">🏷️</div>
+          <div class="stat-value" id="totalTags">0</div>
+          <div class="stat-label">標籤數量</div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value" id="dayCount">0</div>
+          <div class="stat-label">實習天數</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Floating Action Button -->
+  <a href="add-record.html" class="fab" title="新增紀錄">
+    <span class="fab-icon">+</span>
+  </a>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal" id="profileModal">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3>編輯個人資料</h3>
+        <button class="modal-close" id="closeModalBtn">&times;</button>
+      </div>
+      <form id="profileForm">
+        <div class="form-group">
+          <label class="form-label">姓名</label>
+          <input type="text" class="form-input" id="inputName" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">目前實習公司</label>
+          <input type="text" class="form-input" id="inputCompany" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">實習職位</label>
+          <input type="text" class="form-input" id="inputPosition" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">興趣</label>
+          <textarea class="form-textarea" id="inputInterests" rows="3"
+            placeholder="例如：程式設計、UI/UX 設計、資料分析..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email（選填）</label>
+          <input type="email" class="form-input" id="inputEmail">
+        </div>
+        <div class="form-group">
+          <label class="form-label">GitHub（選填）</label>
+          <input type="text" class="form-input" id="inputGithub" placeholder="https://github.com/username">
+        </div>
+        <div class="form-group">
+          <label class="form-label">LinkedIn（選填）</label>
+          <input type="text" class="form-input" id="inputLinkedin" placeholder="https://linkedin.com/in/username">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelProfileBtn">取消</button>
+          <button type="submit" class="btn btn-primary">儲存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/common.js"></script>
+  <script src="js/index.js"></script>
+</body>
+
+</html>

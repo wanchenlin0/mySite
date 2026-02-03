@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="實習紀錄詳情">
+    <title>紀錄詳情 | 實習紀錄網站</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="index.html" class="navbar-brand">✨ 實習紀錄</a>
+                <div class="navbar-menu">
+                    <a href="index.html" class="navbar-link">首頁</a>
+                    <a href="add-record.html" class="navbar-link">+ 新增紀錄</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">首頁</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current" id="breadcrumbTitle">載入中...</span>
+        </div>
+
+        <!-- Record Content -->
+        <article class="record-detail">
+            <div class="glass-card">
+                <!-- Header -->
+                <header class="record-header">
+                    <div class="record-date-large" id="recordDate">載入中...</div>
+                    <h1 class="record-title-large" id="recordTitle">載入中...</h1>
+                    <div class="record-tags" id="recordTags"></div>
+                </header>
+
+                <!-- Content -->
+                <div class="record-content" id="recordContent">
+                    <p>載入中...</p>
+                </div>
+
+                <!-- Meta Info -->
+                <div class="record-meta-info">
+                    <div class="meta-item">
+                        <span class="meta-label">建立時間</span>
+                        <span class="meta-value" id="createdAt">-</span>
+                    </div>
+                    <div class="meta-item" id="updatedAtContainer" style="display: none;">
+                        <span class="meta-label">最後更新</span>
+                        <span class="meta-value" id="updatedAt">-</span>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="record-actions">
+                    <a href="index.html" class="btn btn-secondary">← 返回列表</a>
+                    <div class="action-group">
+                        <button id="editBtn" class="btn btn-secondary">✏️ 編輯</button>
+                        <button id="deleteBtn" class="btn btn-danger">🗑️ 刪除</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation to Adjacent Records -->
+            <div class="record-navigation">
+                <a href="#" id="prevRecord" class="nav-card glass-card" style="display: none;">
+                    <div class="nav-direction">← 上一篇</div>
+                    <div class="nav-title"></div>
+                </a>
+                <a href="#" id="nextRecord" class="nav-card glass-card" style="display: none;">
+                    <div class="nav-direction">下一篇 →</div>
+                    <div class="nav-title"></div>
+                </a>
+            </div>
+        </article>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/common.js"></script>
+    <script src="js/record-detail.js"></script>
+</body>
+
+</html>

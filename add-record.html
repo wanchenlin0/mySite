@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="新增實習紀錄">
+    <title>新增紀錄 | 實習紀錄網站</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="index.html" class="navbar-brand">✨ 實習紀錄</a>
+                <div class="navbar-menu">
+                    <a href="index.html" class="navbar-link">首頁</a>
+                    <a href="add-record.html" class="navbar-link active">+ 新增紀錄</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">首頁</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current" id="breadcrumbTitle">新增紀錄</span>
+        </div>
+
+        <!-- Form Section -->
+        <section class="add-record-page">
+            <div class="glass-card">
+                <h1 class="page-title" id="pageTitle">📝 新增實習紀錄</h1>
+
+                <form id="recordForm">
+                    <div class="form-group">
+                        <label for="recordDate" class="form-label">日期 *</label>
+                        <input type="date" id="recordDate" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recordTitle" class="form-label">標題 *</label>
+                        <input type="text" id="recordTitle" class="form-input" placeholder="例如：第一天報到、完成專案簡報..." required
+                            maxlength="100">
+                        <div class="form-hint" id="titleHint">0 / 100</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recordContent" class="form-label">內容描述 *</label>
+                        <textarea id="recordContent" class="form-textarea" placeholder="詳細描述今天的實習經歷、學到的技能、遇到的挑戰..."
+                            required rows="12"></textarea>
+                        <div class="form-hint" id="contentHint">0 字元</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recordTags" class="form-label">標籤</label>
+                        <input type="text" id="recordTags" class="form-input" placeholder="用逗號分隔，例如：程式設計, 團隊合作, 專案管理">
+                        <div class="form-hint">建議新增 2-5 個標籤，方便日後搜尋</div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="cancelBtn" class="btn btn-secondary">取消</button>
+                        <button type="button" id="resetBtn" class="btn btn-secondary">重置</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span id="submitText">💾 儲存紀錄</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tips Card -->
+            <div class="glass-card tips-card">
+                <h3>💡 撰寫技巧</h3>
+                <ul class="tips-list">
+                    <li><strong>具體描述</strong>：記錄具體的任務和成果，而非籠統的感受</li>
+                    <li><strong>學習重點</strong>：寫下學到的新技能或知識</li>
+                    <li><strong>挑戰克服</strong>：記錄遇到的困難和解決方法</li>
+                    <li><strong>反思成長</strong>：思考這次經驗對未來的幫助</li>
+                    <li><strong>善用標籤</strong>：標籤有助於分類和快速查找相關紀錄</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/common.js"></script>
+    <script src="js/add-record.js"></script>
+</body>
+
+</html>

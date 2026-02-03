@@ -1,0 +1,16 @@
+/* Profile Interests */
+.profile-interests {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(139, 92, 246, 0.05);
+    border-left: 3px solid var(--color-accent-purple);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+.profile-interests strong {
+    color: var(--color-accent-purple);
+    font-weight: 600;
+    margin-right: var(--spacing-xs);
+}
