@@ -139,6 +139,11 @@ function createRecordCard(record, index) {
 
   const excerpt = Utils.getExcerpt(record.content, 150);
 
+  // 時間資訊：顯示建立時間，如果有更新時間也顯示
+  const timeInfo = record.updatedAt
+    ? `📅 建立：${Utils.formatRelativeTime(record.createdAt)}<br>✏️ 更新：${Utils.formatRelativeTime(record.updatedAt)}`
+    : `📅 建立：${Utils.formatRelativeTime(record.createdAt)}`;
+
   return `
     <div class="timeline-item" style="animation-delay: ${index * 0.1}s">
       <div class="timeline-marker"></div>
@@ -148,7 +153,7 @@ function createRecordCard(record, index) {
         <p class="timeline-description">${excerpt}</p>
         ${tagsHTML}
         <div class="record-meta">
-          <span class="record-time">📅 ${Utils.formatRelativeTime(record.createdAt)}</span>
+          <span class="record-time">${timeInfo}</span>
           <span class="record-link">查看詳情 →</span>
         </div>
       </div>
