@@ -171,7 +171,7 @@ p {
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xl);
     transition: all var(--transition-base);
     box-shadow: var(--shadow-sm);
 }
@@ -363,31 +363,33 @@ p {
 }
 
 .timeline-title {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-2xl);
     color: var(--color-text-primary);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
 }
 
 .timeline-description {
     color: var(--color-text-secondary);
-    line-height: 1.7;
+    line-height: 1.8;
+    font-size: var(--font-size-lg);
 }
 
 .timeline-tags {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-xs);
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-md);
 }
 
 .tag {
     display: inline-block;
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
     background: var(--color-primary-light);
     border: 1px solid var(--color-primary);
     border-radius: var(--radius-md);
     color: var(--color-primary);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
     font-weight: 600;
     transition: all var(--transition-fast);
 }
@@ -879,8 +881,9 @@ p {
 }
 
 .record-time {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     color: var(--color-text-muted);
+    font-weight: 500;
 }
 
 .record-link {
