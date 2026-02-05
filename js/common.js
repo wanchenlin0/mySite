@@ -6,6 +6,49 @@ class DataManager {
     constructor() {
         this.recordsKey = 'internshipRecords';
         this.profileKey = 'userProfile';
+        this.fixDuplicateIds(); // 初始化時檢測並修復 ID
+    }
+
+    // 檢測並修復重複 ID
+    fixDuplicateIds() {
+        try {
+            const stored = localStorage.getItem(this.recordsKey);
+            if (!stored) return;
+
+            const records = JSON.parse(stored);
+            if (!Array.isArray(records)) return;
+
+            const seenIds = new Set();
+            let hasDuplicates = false;
+            let fixedCount = 0;
+
+            const fixedRecords = records.map(record => {
+                if (record.id && seenIds.has(record.id)) {
+                    hasDuplicates = true;
+                    // 生成新 ID: timestamp_random
+                    const newId = `${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+                    fixedCount++;
+                    return { ...record, id: newId };
+                }
+                if (record.id) {
+                    seenIds.add(record.id);
+                }
+                return record;
+            });
+
+            if (hasDuplicates) {
+                console.warn(`Found ${fixedCount} duplicate IDs. Fixing...`);
+                localStorage.setItem(this.recordsKey, JSON.stringify(fixedRecords));
+                // 延遲通知以免干擾 UI 初始化
+                setTimeout(() => {
+                    if (typeof Utils !== 'undefined' && Utils.showNotification) {
+                        // Utils.showNotification(`🔧 已自動修復 ${fixedCount} 筆資料索引衝突`, 'success'); // 已停用通知
+                    }
+                }, 1000);
+            }
+        } catch (e) {
+            console.error('Error fixing duplicate IDs:', e);
+        }
     }
 
     // ===================================

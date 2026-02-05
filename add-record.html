@@ -44,9 +44,19 @@
                 <h1 class="page-title" id="pageTitle">📝 新增實習紀錄</h1>
 
                 <form id="recordForm">
-                    <div class="form-group">
-                        <label for="recordDate" class="form-label">日期 *</label>
-                        <input type="date" id="recordDate" class="form-input" required>
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="recordDate" class="form-label">日期 *</label>
+                            <input type="date" id="recordDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime" class="form-label">開始時間 *</label>
+                            <input type="time" id="startTime" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime" class="form-label">結束時間 *</label>
+                            <input type="time" id="endTime" class="form-input" required>
+                        </div>
                     </div>
 
                     <div class="form-group">

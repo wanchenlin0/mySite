@@ -17,6 +17,9 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- PDF Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
@@ -67,6 +70,7 @@
       <div class="section-header">
         <h2 class="section-title">📚 實習歷程</h2>
         <div class="section-actions">
+          <button id="exportPdfBtn" class="btn btn-secondary btn-sm" style="margin-right: 0.5rem;">📄 匯出 PDF</button>
           <select id="sortSelect" class="form-select">
             <option value="date-desc">最新優先</option>
             <option value="date-asc">最舊優先</option>

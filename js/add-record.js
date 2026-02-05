@@ -56,7 +56,15 @@ function loadRecordForEdit() {
     }
 
     // 填入表單
-    document.getElementById('recordDate').value = record.date;
+    // 確保日期格式正確 (只取 YYYY-MM-DD)，避免 ISO 時間字串導致的時區問題
+    let safeDate = record.date;
+    if (safeDate && safeDate.includes('T')) {
+        safeDate = safeDate.split('T')[0];
+    }
+    document.getElementById('recordDate').value = safeDate;    // 填入表單
+    // 如果舊紀錄沒有時間，預設填入 09:00 - 18:00，方便用戶編輯
+    document.getElementById('startTime').value = record.startTime || '09:00';
+    document.getElementById('endTime').value = record.endTime || '18:00';
     document.getElementById('recordTitle').value = record.title;
     document.getElementById('recordContent').value = record.content;
     document.getElementById('recordTags').value = record.tags ? record.tags.join(', ') : '';
@@ -75,6 +83,8 @@ function handleSubmit(event) {
     // 收集表單資料
     const formData = {
         date: document.getElementById('recordDate').value,
+        startTime: document.getElementById('startTime').value,
+        endTime: document.getElementById('endTime').value,
         title: document.getElementById('recordTitle').value.trim(),
         content: document.getElementById('recordContent').value.trim(),
         tags: document.getElementById('recordTags').value
@@ -88,7 +98,6 @@ function handleSubmit(event) {
         Utils.showNotification('❌ 請填寫所有必填欄位', 'error');
         return;
     }
-
     // 儲存
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled = true;
@@ -102,9 +111,9 @@ function handleSubmit(event) {
             const updated = dataManager.updateRecord(editRecordId, formData);
             if (updated) {
                 recordId = editRecordId;
-                Utils.showNotification('✅ 紀錄已更新');
+                // Utils.showNotification('✅ 紀錄已更新'); // 已停用通知
             } else {
-                Utils.showNotification('❌ 更新失敗', 'error');
+                Utils.showNotification('❌ 更新失敗', 'error'); // 錯誤還是要提示
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span id="submitText">💾 更新紀錄</span>';
                 return;
@@ -113,7 +122,7 @@ function handleSubmit(event) {
             // 新增模式
             const newRecord = dataManager.addRecord(formData);
             recordId = newRecord.id;
-            Utils.showNotification('✅ 紀錄已儲存');
+            // Utils.showNotification('✅ 紀錄已儲存'); // 已停用通知
         }
 
         // 跳轉到詳情頁
@@ -192,13 +201,13 @@ function setupEventListeners() {
     document.getElementById('recordTitle').addEventListener('input', updateCharCount);
     document.getElementById('recordContent').addEventListener('input', updateCharCount);
 
-    // 離開前警告
-    window.addEventListener('beforeunload', (e) => {
-        if (formHasChanges()) {
-            e.preventDefault();
-            e.returnValue = '';
-        }
-    });
+    // 離開前警告 - 已停用
+    // window.addEventListener('beforeunload', (e) => {
+    //     if (formHasChanges()) {
+    //         e.preventDefault();
+    //         e.returnValue = '';
+    //     }
+    // });
 
     // 鍵盤快捷鍵
     document.addEventListener('keydown', (e) => {
@@ -214,50 +223,27 @@ function setupEventListeners() {
         }
     });
 
-    // Auto-save to localStorage (草稿功能)
-    let autoSaveTimeout;
-    const formInputs = document.querySelectorAll('#recordForm input, #recordForm textarea');
-    formInputs.forEach(input => {
-        input.addEventListener('input', () => {
-            clearTimeout(autoSaveTimeout);
-            autoSaveTimeout = setTimeout(saveDraft, 2000);
-        });
-    });
+    // Auto-save to localStorage (草稿功能) - 已停用
+    // let autoSaveTimeout;
+    // const formInputs = document.querySelectorAll('#recordForm input, #recordForm textarea');
+    // formInputs.forEach(input => {
+    //     input.addEventListener('input', () => {
+    //         clearTimeout(autoSaveTimeout);
+    //         autoSaveTimeout = setTimeout(saveDraft, 2000);
+    //     });
+    // });
 }
 
 // ===================================
-// 草稿功能
+// 草稿功能 (已停用)
 // ===================================
 
 function saveDraft() {
-    if (editMode) return; // 編輯模式不儲存草稿
-
-    const draft = {
-        date: document.getElementById('recordDate').value,
-        title: document.getElementById('recordTitle').value,
-        content: document.getElementById('recordContent').value,
-        tags: document.getElementById('recordTags').value,
-        savedAt: new Date().toISOString()
-    };
-
-    localStorage.setItem('recordDraft', JSON.stringify(draft));
+    // 功能已停用
 }
 
 function loadDraft() {
-    const draft = localStorage.getItem('recordDraft');
-    if (!draft) return false;
-
-    const data = JSON.parse(draft);
-
-    if (Utils.confirm('偵測到未完成的草稿，是否要載入？')) {
-        document.getElementById('recordDate').value = data.date;
-        document.getElementById('recordTitle').value = data.title;
-        document.getElementById('recordContent').value = data.content;
-        document.getElementById('recordTags').value = data.tags;
-        updateCharCount();
-        return true;
-    }
-
+    // 功能已停用
     return false;
 }
 
@@ -265,11 +251,11 @@ function clearDraft() {
     localStorage.removeItem('recordDraft');
 }
 
-// 頁面載入時檢查草稿
-if (!editMode) {
-    setTimeout(() => {
-        if (loadDraft()) {
-            Utils.showNotification('📝 已載入草稿');
-        }
-    }, 500);
-}
+// 頁面載入時檢查草稿 - 已停用
+// if (!editMode) {
+//     setTimeout(() => {
+//         if (loadDraft()) {
+//             Utils.showNotification('📝 已載入草稿');
+//         }
+//     }, 500);
+// }
