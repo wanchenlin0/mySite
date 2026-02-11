@@ -1,0 +1,9 @@
+backend/.env
+backend/*.db
+backend/__pycache__/
+backend/routers/__pycache__/
+backend/.venv/
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/

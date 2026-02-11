@@ -1,0 +1,18 @@
+# 環境變數（含 API Key，絕對不可上 git）
+.env
+
+# 資料庫檔案
+*.db
+*.db-journal
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/

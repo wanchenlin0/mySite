@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登入 | 實習紀錄網站</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body {
+      background: var(--color-bg-secondary);
+    }
+
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .login-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .login-brand {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-brand h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .login-brand p {
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 1.5rem;
+      background: var(--color-bg-secondary);
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 0.6rem;
+      text-align: center;
+      border: none;
+      background: transparent;
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .auth-tab.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      color: var(--color-text-secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text-primary);
+      font-size: 0.95rem;
+      font-family: var(--font-family);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-light);
+    }
+
+    .form-group input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .btn-auth {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--color-primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-auth:hover {
+      background: var(--color-primary-dark);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-auth:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .error-msg {
+      color: #dc2626;
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 0.75rem;
+      min-height: 1.2em;
+    }
+
+    .migrate-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .migrate-title {
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .btn-migrate {
+      width: 100%;
+      padding: 0.6rem;
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-migrate:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .btn-migrate:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-brand">
+        <h1>✨ 實習紀錄</h1>
+        <p>記錄你的實習旅程</p>
+      </div>
+
+      <!-- 登入/註冊切換 -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">登入</button>
+        <button class="auth-tab" id="tab-register" onclick="switchTab('register')">註冊</button>
+      </div>
+
+      <!-- 登入表單 -->
+      <form id="form-login" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="your@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>密碼</label>
+          <input type="password" id="login-password" placeholder="輸入密碼" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-auth" id="btn-login">登入</button>
+        <div class="error-msg" id="login-error"></div>
+      </form>
+
+      <!-- 註冊表單 -->
+      <form id="form-register" style="display:none" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="your@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>密碼（至少 6 個字元）</label>
+          <input type="password" id="reg-password" placeholder="設定密碼" required autocomplete="new-password" minlength="6">
+        </div>
+        <div class="form-group">
+          <label>確認密碼</label>
+          <input type="password" id="reg-confirm" placeholder="再次輸入密碼" required autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn-auth" id="btn-register">建立帳號</button>
+        <div class="error-msg" id="register-error"></div>
+      </form>
+
+      <!-- 舊資料遷移（登入後才顯示） -->
+      <div class="migrate-section" id="migrate-section" style="display:none">
+        <div class="migrate-title">偵測到瀏覽器中有舊資料</div>
+        <button class="btn-migrate" id="btn-migrate" onclick="migrateData()">
+          📦 匯入現有資料到我的帳號
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-client.js"></script>
+  <script>
+    // 已登入則直接跳轉首頁
+    (async function checkAlreadyLoggedIn() {
+      if (ApiClient.accessToken) {
+        window.location.href = '/index.html';
+        return;
+      }
+      const ok = await ApiClient.refreshAccessToken();
+      if (ok) {
+        window.location.href = '/index.html';
+      }
+    })();
+
+    // 檢查是否有舊的 LocalStorage 資料
+    function checkLegacyData() {
+      const records = localStorage.getItem('internshipRecords');
+      const hasData = records && JSON.parse(records).length > 0;
+      if (hasData) {
+        document.getElementById('migrate-section').style.display = 'block';
+      }
+    }
+
+    function switchTab(tab) {
+      const isLogin = tab === 'login';
+      document.getElementById('form-login').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('form-register').style.display = isLogin ? 'none' : 'block';
+      document.getElementById('tab-login').classList.toggle('active', isLogin);
+      document.getElementById('tab-register').classList.toggle('active', !isLogin);
+      document.getElementById('login-error').textContent = '';
+      document.getElementById('register-error').textContent = '';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-login');
+      const errEl = document.getElementById('login-error');
+      errEl.textContent = '';
+      btn.disabled = true;
+      btn.textContent = '登入中...';
+
+      try {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        await ApiClient.login(email, password);
+        checkLegacyData();
+        // 若無舊資料直接跳轉
+        if (!localStorage.getItem('internshipRecords') ||
+            JSON.parse(localStorage.getItem('internshipRecords')).length === 0) {
+          window.location.href = '/index.html';
+        }
+      } catch (err) {
+        errEl.textContent = err.message || '登入失敗，請確認 Email 和密碼';
+        btn.disabled = false;
+        btn.textContent = '登入';
+      }
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-register');
+      const errEl = document.getElementById('register-error');
+      errEl.textContent = '';
+
+      const password = document.getElementById('reg-password').value;
+      const confirm = document.getElementById('reg-confirm').value;
+      if (password !== confirm) {
+        errEl.textContent = '兩次密碼輸入不一致';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '建立中...';
+
+      try {
+        const email = document.getElementById('reg-email').value;
+        await ApiClient.register(email, password);
+        // 自動登入
+        await ApiClient.login(email, password);
+        checkLegacyData();
+        if (!localStorage.getItem('internshipRecords') ||
+            JSON.parse(localStorage.getItem('internshipRecords')).length === 0) {
+          window.location.href = '/index.html';
+        }
+      } catch (err) {
+        errEl.textContent = err.message || '註冊失敗，請稍後再試';
+        btn.disabled = false;
+        btn.textContent = '建立帳號';
+      }
+    }
+
+    async function migrateData() {
+      const btn = document.getElementById('btn-migrate');
+      btn.disabled = true;
+      btn.textContent = '⏳ 匯入中...';
+
+      const records = JSON.parse(localStorage.getItem('internshipRecords') || '[]');
+      const profile = JSON.parse(localStorage.getItem('userProfile') || 'null');
+
+      let successCount = 0;
+      for (const record of records) {
+        try {
+          await ApiClient.addRecord(record);
+          successCount++;
+        } catch (e) {
+          console.error('匯入失敗:', record.title, e);
+        }
+      }
+
+      if (profile) {
+        try {
+          await ApiClient.saveProfile(profile);
+        } catch (e) {
+          console.error('個人資料匯入失敗:', e);
+        }
+      }
+
+      // 清除舊的 LocalStorage
+      localStorage.removeItem('internshipRecords');
+      localStorage.removeItem('userProfile');
+      localStorage.removeItem('openai_api_key');
+
+      btn.textContent = `✅ 成功匯入 ${successCount} 筆紀錄！`;
+      setTimeout(() => { window.location.href = '/index.html'; }, 1500);
+    }
+  </script>
+</body>
+
+</html>

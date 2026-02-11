@@ -1,6 +1,61 @@
-# 實習紀錄網站
+# 實習紀錄網站 v2
 
-一個現代化、美觀的實習紀錄管理網站，採用深色玻璃擬態設計風格，讓您輕鬆記錄和展示實習經歷。
+一個現代化、美觀的實習紀錄管理網站，採用**前後端分離架構**，每位用戶只能看到自己的實習紀錄。
+
+## 🚀 快速開始（v2 前後端分離版）
+
+### 1. 設定後端環境
+
+```bash
+cd backend
+
+# 複製環境變數設定
+copy .env.example .env
+# 或 Linux/Mac:
+# cp .env.example .env
+```
+
+編輯 `backend/.env`，填入以下設定：
+```
+DATABASE_URL=sqlite:///./mysite.db
+JWT_SECRET=your-long-random-secret-key
+OPENAI_API_KEY=sk-proj-your-openai-api-key
+FRONTEND_URL=http://localhost:5500
+```
+
+### 2. 啟動後端（Windows）
+
+```bash
+cd backend
+start.bat
+```
+
+或手動啟動：
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+
+後端啟動後：
+- API 服務：`http://localhost:8000`
+- Swagger 文件：`http://localhost:8000/docs`
+
+### 3. 啟動前端
+
+使用 VS Code Live Server（推薦）或任意靜態伺服器，開啟前端目錄。
+
+預設連接 `http://localhost:8000`（可在 `js/api-client.js` 修改 `BASE_URL`）。
+
+### 4. 使用方式
+
+1. 開啟 `login.html` 進行**註冊**
+2. 登入後進入個人的實習紀錄首頁
+3. 如有舊的 LocalStorage 資料，登入後可點選「匯入現有資料」
+
+---
 
 ## ✨ 功能特色
 
