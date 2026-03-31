@@ -4,6 +4,46 @@
 
 let allRecords = [];
 let currentSort = 'date-desc';
+const INTERNSHIP_TARGET_HOURS = 324;
+
+function parseHourMinute(value, fallback) {
+  const raw = (value || fallback || '').trim();
+  const match = raw.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return null;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (Number.isNaN(hours) || Number.isNaN(minutes)) return null;
+  return hours * 60 + minutes;
+}
+
+function calculateRecordHours(record) {
+  const startMinutes = parseHourMinute(record.startTime, '09:00');
+  const endMinutes = parseHourMinute(record.endTime, '18:00');
+  if (startMinutes == null || endMinutes == null || endMinutes <= startMinutes) {
+    return 0;
+  }
+  return (endMinutes - startMinutes) / 60;
+}
+
+function updateHoursProgress(records) {
+  const totalHours = records.reduce((sum, record) => sum + calculateRecordHours(record), 0);
+  const roundedHours = Math.round(totalHours * 10) / 10;
+  const progress = INTERNSHIP_TARGET_HOURS > 0
+    ? Math.min((roundedHours / INTERNSHIP_TARGET_HOURS) * 100, 100)
+    : 0;
+  const remaining = Math.max(INTERNSHIP_TARGET_HOURS - roundedHours, 0);
+
+  const textEl = document.getElementById('internshipHoursText');
+  const subtextEl = document.getElementById('internshipHoursSubtext');
+  const barEl = document.getElementById('internshipHoursBar');
+  if (!textEl || !subtextEl || !barEl) return;
+
+  textEl.textContent = `${roundedHours} / ${INTERNSHIP_TARGET_HOURS} 小時`;
+  subtextEl.textContent = remaining > 0
+    ? `目前完成 ${progress.toFixed(1)}%，距離目標還差 ${Math.round(remaining * 10) / 10} 小時`
+    : '已達成 324 小時目標';
+  barEl.style.width = `${progress}%`;
+}
 
 // ===================================
 // 初始化
@@ -108,6 +148,7 @@ async function loadRecords(search = '') {
     allRecords = records;
     renderRecords(allRecords);
     updateStatistics(allRecords);
+    updateHoursProgress(allRecords);
   } catch (e) {
     Utils.showNotification('載入紀錄失敗', 'error');
   }
@@ -142,6 +183,10 @@ function createRecordCard(record, index) {
       </div>`
     : '';
 
+  const commentBadge = record.hasCommented
+    ? `<span style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.55rem; border-radius: 999px; background: rgba(59, 130, 246, 0.12); color: #1d4ed8; font-size: 0.75rem; font-weight: 700;">已留言</span>`
+    : '';
+
   const excerpt = Utils.getExcerpt(record.content, 150);
   const timeInfo = (record.startTime && record.endTime)
     ? `🕒 ${record.startTime} - ${record.endTime}`
@@ -151,7 +196,10 @@ function createRecordCard(record, index) {
     <div class="timeline-item" style="animation-delay: ${index * 0.1}s">
       <div class="timeline-marker"></div>
       <div class="glass-card timeline-content record-card" onclick="window.location.href='record-detail.html?id=${record.id}'">
-        <div class="timeline-date">${Utils.formatDate(record.date)}</div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.4rem;">
+          <div class="timeline-date" style="margin-bottom: 0;">${Utils.formatDate(record.date)}</div>
+          ${commentBadge}
+        </div>
         <h3 class="timeline-title">${Utils.escapeHtml(record.title)}</h3>
         <p class="timeline-description">${excerpt}</p>
         ${tagsHTML}
