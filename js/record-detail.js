@@ -93,9 +93,23 @@ async function loadComments() {
         currentUserId = me.id;
         const { comments } = await ApiClient.getComments(currentRecordId);
         renderComments(comments);
+        updateCommentStatus(comments);
     } catch (e) {
         console.error('載入留言失敗', e);
     }
+}
+
+function updateCommentStatus(comments) {
+    const statusEl = document.getElementById('commentStatus');
+    const input = document.getElementById('commentInput');
+    const btn = document.getElementById('addCommentBtn');
+    if (!statusEl || !input || !btn) return;
+
+    const hasOwnComment = comments.some(c => c.user_id === currentUserId);
+    statusEl.style.display = hasOwnComment ? 'block' : 'none';
+    statusEl.textContent = hasOwnComment ? '你已留過言，可再補充或更新回饋' : '';
+    input.placeholder = hasOwnComment ? '你已留過言，可再補充新的回饋...' : '留下回饋...';
+    btn.textContent = hasOwnComment ? '再次留言' : '送出';
 }
 
 function renderComments(comments) {

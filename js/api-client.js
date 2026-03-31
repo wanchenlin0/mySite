@@ -2,7 +2,9 @@
  * ApiClient — 封裝所有後端 API 呼叫，取代 DataManager 的 localStorage 操作
  */
 const ApiClient = {
-    BASE_URL: 'https://mysite.e0linworkspace.work',
+    BASE_URL: (location.hostname === '127.0.0.1' || location.hostname === 'localhost')
+        ? 'http://127.0.0.1:8000'
+        : 'https://mysite.e0linworkspace.work',
 
     get accessToken() { return sessionStorage.getItem('access_token'); },
     set accessToken(val) {

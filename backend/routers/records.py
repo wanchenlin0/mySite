@@ -4,14 +4,14 @@ from sqlalchemy.orm import Session
 from typing import Optional
 
 from database import get_db
-from models import User, Record
+from models import User, Record, Comment
 from schemas import RecordCreate, RecordUpdate, RecordResponse
 from auth import get_current_user
 
 router = APIRouter(prefix="/api/records", tags=["records"])
 
 
-def record_to_dict(r: Record) -> dict:
+def record_to_dict(r: Record, *, has_commented: bool = False) -> dict:
     """將 Record ORM 物件轉為 API 回應格式"""
     return {
         "id": r.id,
@@ -24,6 +24,7 @@ def record_to_dict(r: Record) -> dict:
         "tags": json.loads(r.tags) if r.tags else [],
         "createdAt": r.created_at.isoformat() if r.created_at else None,
         "updatedAt": r.updated_at.isoformat() if r.updated_at else None,
+        "hasCommented": has_commented,
     }
 
 
@@ -60,7 +61,19 @@ def get_records(
         query = query.order_by(Record.date.desc(), Record.created_at.desc())
 
     records = query.all()
-    return {"records": [record_to_dict(r) for r in records], "total": len(records)}
+    record_ids = [r.id for r in records]
+    commented_record_ids = set()
+    if record_ids:
+        commented_record_ids = {
+            row[0] for row in db.query(Comment.record_id)
+            .filter(Comment.user_id == current_user.id, Comment.record_id.in_(record_ids))
+            .distinct()
+            .all()
+        }
+    return {
+        "records": [record_to_dict(r, has_commented=(r.id in commented_record_ids)) for r in records],
+        "total": len(records)
+    }
 
 
 @router.get("/{record_id}/adjacent")
