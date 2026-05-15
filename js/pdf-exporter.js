@@ -176,8 +176,8 @@ class PDFExporter {
             const end = parseInt(endTime.split(':')[0]) + parseInt(endTime.split(':')[1]) / 60;
             const duration = Math.max(0, end - start);
 
-            // Deduction Rule: If duration >= 9 hours, deduct 1 hour (lunch break)
-            const billableHours = duration >= 9 ? duration - 1 : duration;
+            // Deduction Rule: If duration > 4 hours, deduct 1 hour (lunch break)
+            const billableHours = duration > 4 ? duration - 1 : duration;
 
             totalHours += billableHours;
 
