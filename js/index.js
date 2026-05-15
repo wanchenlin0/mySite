@@ -22,7 +22,8 @@ function calculateRecordHours(record) {
   if (startMinutes == null || endMinutes == null || endMinutes <= startMinutes) {
     return 0;
   }
-  return (endMinutes - startMinutes) / 60;
+  const duration = (endMinutes - startMinutes) / 60;
+  return duration >= 9 ? duration - 1 : duration;
 }
 
 function updateHoursProgress(records) {
